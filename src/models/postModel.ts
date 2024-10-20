@@ -27,11 +27,11 @@ const postSchema = new mongoose.Schema({
 },{timestamps:true,toJSON:{virtuals:true},toObject:{virtuals:true}})
 
 postSchema.virtual("likesCount").get(function(){
-    return this.likes.length
+    return this.likes ? this.likes.length : 0;
 })
 
 postSchema.virtual("commentsCount").get(function(){
-    return this.comments.length
+    return this.comments ? this.comments.length : 0;
 })
 
 export const Post = mongoose.model("Post",postSchema)

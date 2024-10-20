@@ -26,14 +26,32 @@ export const addComment = async(req,res)=>{
 export const getCommentsPost = async(req,res)=>{
     try{
         const {id} = req.params;
-        const post = await Post.findById(id)
+        const post = await Post.findById(id).populate("comments")
+        // console.log(post);
         if(!post){
             res.status(404).json({status:"error",message:"post not found"})
         }
         else{
             const comments = post.comments
-            const postComments = await Comment.find({_id:comments.map(id=>id)},{"__v":false}).populate("userId","username profilePic")
-            res.status(200).json({status:"success",data:postComments})
+            const postComments = await Comment.find({_id:comments.map(ele=>ele._id)},{"__v":false}).populate("userId")
+            const data = postComments.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    text:ele.text,
+                    userId:{
+                        _id:ele.userId._id,
+                        username:ele.userId.username,
+                        profilePic:ele.userId.profilePic
+                    },
+                    postId:ele.postId,
+                    parentId:ele.parentId,
+                    likesCount:ele.likesCount,
+                    repliesCount:ele.repliesCount,
+                    createdAt:ele.createdAt,
+                    updatedAt:ele.updatedAt
+                }
+            })
+            res.status(200).json({status:"success",data})
         }
     }catch(err:any){
         res.status(404).json({status:"error",message:err.message})
@@ -73,8 +91,25 @@ export const getRepliesComment = async(req,res)=>{
         }
         else{
             const replies = comment.replies
-            const commentReplies = await Comment.find({_id:replies.map(id=>id)},{"__v":false}).populate("userId","username profilePic")
-            res.status(200).json({status:"success",data:commentReplies})
+            const commentReplies = await Comment.find({_id:replies.map(id=>id)},{"__v":false}).populate("userId")
+            const data = commentReplies.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    text:ele.text,
+                    userId:{
+                        _id:ele.userId._id,
+                        username:ele.userId.username,
+                        profilePic:ele.userId.profilePic
+                    },
+                    postId:ele.postId,
+                    parentId:ele.parentId,
+                    likesCount:ele.likesCount,
+                    repliesCount:ele.repliesCount,
+                    createdAt:ele.createdAt,
+                    updatedAt:ele.updatedAt
+                }
+            })
+            res.status(200).json({status:"success",data})
         }
     }catch(err:any){
         res.status(404).json({status:"error",message:err.message})
@@ -112,6 +147,9 @@ export const deleteComment = async(req,res)=>{
                 res.status(200).json({status:"success",message:"comment deleted successfully"})
             }
             else{
+                const post = await Post.findById(comment.postId)
+                const updatePostComments = post?.comments.filter(id=>id.toString()!==comment._id.toString())
+                await Post.findByIdAndUpdate(comment.postId,{comments:updatePostComments})
                 res.status(200).json({status:"success",message:"comment deleted successfully"})
             }
         }

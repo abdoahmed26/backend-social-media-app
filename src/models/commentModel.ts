@@ -35,11 +35,11 @@ const commentModel = new mongoose.Schema({
 },{timestamps:true,toJSON:{virtuals:true},toObject:{virtuals:true}})
 
 commentModel.virtual("likesCount").get(function(){
-    return this.likes.length
+    return this.likes ? this.likes.length : 0
 })
 
 commentModel.virtual("repliesCount").get(function(){
-    return this.replies.length
+    return this.replies ? this.replies.length : 0
 })
 
 export const Comment = mongoose.model("Comment",commentModel)

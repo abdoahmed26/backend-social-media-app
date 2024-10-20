@@ -30,8 +30,15 @@ export const getUserLikesPost = async(req,res)=>{
             res.status(404).json({status:"error",message: "post not found"})
         }else{
             const likes = post.likes
-            const userLikes = await User.find({_id:likes.map(id=>id)}).select("username profilePic")
-            res.status(200).json({status:"success",data:userLikes})
+            const userLikes = await User.find({_id:likes.map(id=>id)})
+            const data = userLikes.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    username:ele.username,
+                    profilePic:ele.profilePic
+                }
+            })
+            res.status(200).json({status:"success",data})
         }
     }catch(err:any){
         res.status(404).json({status:"error",message: err.message})
@@ -66,8 +73,15 @@ export const getUserLikesComment = async(req,res)=>{
             res.status(404).json({status:"error",message: "comment not found"})
         }else{
             const likes = comment.likes;
-            const userLikes = await User.find({_id:likes.map(id=>id)}).select("username profilePic")
-            res.status(200).json({status:"success",data:userLikes})
+            const userLikes = await User.find({_id:likes.map(id=>id)})
+            const data = userLikes.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    username:ele.username,
+                    profilePic:ele.profilePic
+                }
+            })
+            res.status(200).json({status:"success",data})
         }
     }catch(err:any){
         res.status(404).json({status:"error",message: err.message})
