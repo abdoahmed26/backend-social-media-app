@@ -20,27 +20,27 @@ A Social Media APIs implemented with (Node.js, Express.js, MongoDB)
 1- **Clone the repo**
 
 ```bash
-    git clone https://github.com/abdoahmed26/backend-social-media-app.git
-    cd backend-social-media-app
+git clone https://github.com/abdoahmed26/backend-social-media-app.git
+cd backend-social-media-app
 ```
 2- **Install dependencies**
 
 ```bash
-    npm install
+npm install
 ```
 3- **Setup environment variables**
-    ```env
-        DATABASE_URL = your database url
+```env
+DATABASE_URL = your database url
 
-        JWT_SCRET_KEY = random value
+JWT_SCRET_KEY = random value
 
-        PORT = your port ex(5000)
-    ```
+PORT = your port ex(5000)
+```
 
 ## Usage
 
 ```bash
-    npm run dev
+npm run dev
 ```
 
 ## Tech Stack
