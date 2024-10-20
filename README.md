@@ -29,14 +29,13 @@ A Social Media APIs implemented with (Node.js, Express.js, MongoDB)
     npm install
 ```
 3- **Setup environment variables**
-    - Create a .env file with the necessary configuration.
-        ```env
+    ```env
         DATABASE_URL = your database url
 
         JWT_SCRET_KEY = random value
 
         PORT = your port ex(5000)
-        ```
+    ```
 
 ## Usage
 
