@@ -66,17 +66,25 @@ npm run dev
     - user can update his (personal infos, email, profile image, password)
     - user can reset his password in case of forgotten 
 - **📄 Post Management**
-    - user can (create, update, delete) his his own post
+    - user can (read, create, update, delete) his his own post
     - user can like/unlike post
     - user can get post feed based on his friends posts and heighest rech posts
     - user can get other users who liked his post
 - **📝 Comment Management**
-    - user can (add, delete, update) comment on post
-    - user can get comments on specific post 
+    - user can (add, delete, update) comment on post or status
+    - user can get comments on specific post or status
     - user can like/unlike on a comment
     - user can reply on a comment
     - user can get comment replies
     - user can get other users who liked his comment
+- **🖼 Status Management**
+    - user can (read, create, delete) his his own status
+    - user can like/unlike status
+    - user can get status feed based on his friends statuses
+    - user can get other users who liked his status
+    - Status is automatically deleted from the database after 24 hours
+- **🔎 Search**
+    - user can search for other users
 
 ## Documentation
 

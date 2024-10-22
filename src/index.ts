@@ -9,6 +9,8 @@ import { userRouter } from "./routes/userRoute"
 import { postRouter } from "./routes/postRoute"
 import { likesRouter } from "./routes/likesRoute"
 import { commentRouter } from "./routes/commentsRoute"
+import { statusRouter } from "./routes/statusRoute"
+import { searchRouter } from "./routes/searchRoute"
 
 dotenv.config()
 
@@ -37,7 +39,11 @@ app.use("/api/v1/posts",postRouter)
 
 app.use("/api/v1/comments",commentRouter)
 
+app.use("/api/v1/status",statusRouter)
+
 app.use("/api/v1/likes",likesRouter)
+
+app.use("/api/v1/search",searchRouter)
 
 app.all("*", (req, res) => {
     res.status(404).json({status:"error",message: "this resource is not available"})

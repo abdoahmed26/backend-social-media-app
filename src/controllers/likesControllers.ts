@@ -1,5 +1,6 @@
 import { Comment } from "../models/commentModel"
 import { Post } from "../models/postModel"
+import { Status } from "../models/statusModel"
 import { User } from "../models/usersModel"
 
 export const toggleLikePost = async (req, res) => {
@@ -73,6 +74,49 @@ export const getUserLikesComment = async(req,res)=>{
             res.status(404).json({status:"error",message: "comment not found"})
         }else{
             const likes = comment.likes;
+            const userLikes = await User.find({_id:likes.map(id=>id)})
+            const data = userLikes.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    username:ele.username,
+                    profilePic:ele.profilePic
+                }
+            })
+            res.status(200).json({status:"success",data})
+        }
+    }catch(err:any){
+        res.status(404).json({status:"error",message: err.message})
+    }
+}
+
+export const toggleLikeStatus = async (req, res) => {
+    try{
+        const status = await Status.findById(req.params.id)
+        if(!status){
+            res.status(404).json({status:"error",message: "post not found"})
+        }else{
+            if(status.likes.includes(req.user.id)){
+                const deleteLike = status.likes.filter((id)=>id.toString()!==req.user.id)
+                const updatePost = await Status.findByIdAndUpdate(req.params.id,{likes:deleteLike},{new:true,select:{"__v":false}})
+                res.status(200).json({status:"success",message:"Status unliked",data:{likesCount:updatePost?.likes.length}})
+            }else{
+                const addLike = [...status.likes,req.user.id]
+                const updatePost = await Status.findByIdAndUpdate(req.params.id,{likes:addLike},{new:true,select:{"__v":false}})
+                res.status(200).json({status:"success",message:"Status liked",data:{likesCount:updatePost?.likes.length}})
+            }
+        }
+    }catch(err:any){
+        res.status(404).json({status:"error",message: err.message})
+    }
+}
+
+export const getUserLikesStatus = async(req,res)=>{
+    try{
+        const status = await Status.findById(req.params.id)
+        if(!status){
+            res.status(404).json({status:"error",message: "Status not found"})
+        }else{
+            const likes = status.likes
             const userLikes = await User.find({_id:likes.map(id=>id)})
             const data = userLikes.map((ele:any)=>{
                 return {

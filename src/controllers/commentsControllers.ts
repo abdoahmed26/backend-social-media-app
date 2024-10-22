@@ -1,7 +1,8 @@
 import { Comment } from "../models/commentModel";
 import { Post } from "../models/postModel";
+import { Status } from "../models/statusModel";
 
-export const addComment = async(req,res)=>{
+export const addCommentToPost = async(req,res)=>{
     try{
         const {id} = req.params;
         const post = await Post.findById(id)
@@ -23,6 +24,29 @@ export const addComment = async(req,res)=>{
         res.status(404).json({status:"error",message:err.message})
     }
 }
+
+export const addCommentToStatus = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const status = await Status.findById(id)
+        if(!status){
+            res.status(404).json({status:"error",message:"status not found"})
+        }
+        else{
+            const newComment = new Comment({
+                ...req.body,
+                postId:id,
+                userId:req.user.id
+            })
+            await newComment.save();
+            status.comments.push(newComment._id)
+            await status.save()
+            res.status(200).json({status:"success",data:newComment})
+        }
+    }catch(err:any){
+        res.status(404).json({status:"error",message:err.message})
+    }
+}
 export const getCommentsPost = async(req,res)=>{
     try{
         const {id} = req.params;
@@ -35,6 +59,41 @@ export const getCommentsPost = async(req,res)=>{
             const comments = post.comments
             const postComments = await Comment.find({_id:comments.map(ele=>ele._id)},{"__v":false}).populate("userId")
             const data = postComments.map((ele:any)=>{
+                return {
+                    _id:ele._id,
+                    text:ele.text,
+                    userId:{
+                        _id:ele.userId._id,
+                        username:ele.userId.username,
+                        profilePic:ele.userId.profilePic
+                    },
+                    postId:ele.postId,
+                    parentId:ele.parentId,
+                    likesCount:ele.likesCount,
+                    repliesCount:ele.repliesCount,
+                    createdAt:ele.createdAt,
+                    updatedAt:ele.updatedAt
+                }
+            })
+            res.status(200).json({status:"success",data})
+        }
+    }catch(err:any){
+        res.status(404).json({status:"error",message:err.message})
+    }
+}
+
+export const getCommentsStatus = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const status = await Status.findById(id).populate("comments")
+        // console.log(post);
+        if(!status){
+            res.status(404).json({status:"error",message:"post not found"})
+        }
+        else{
+            const comments = status.comments
+            const statusComments = await Comment.find({_id:comments.map(ele=>ele._id)},{"__v":false}).populate("userId")
+            const data = statusComments.map((ele:any)=>{
                 return {
                     _id:ele._id,
                     text:ele.text,
@@ -148,9 +207,17 @@ export const deleteComment = async(req,res)=>{
             }
             else{
                 const post = await Post.findById(comment.postId)
-                const updatePostComments = post?.comments.filter(id=>id.toString()!==comment._id.toString())
-                await Post.findByIdAndUpdate(comment.postId,{comments:updatePostComments})
-                res.status(200).json({status:"success",message:"comment deleted successfully"})
+                if(post){
+                    const updatePostComments = post.comments.filter(id=>id.toString()!==comment._id.toString())
+                    await Post.findByIdAndUpdate(comment.postId,{comments:updatePostComments})
+                    res.status(200).json({status:"success",message:"comment deleted successfully"})
+                }
+                else{
+                    const status = await Status.findById(comment.postId)
+                    const updateStatusComments = status?.comments.filter(id=>id.toString()!==comment._id.toString())
+                    await Status.findByIdAndUpdate(comment.postId,{comments:updateStatusComments})
+                    res.status(200).json({status:"success",message:"comment deleted successfully"})
+                }
             }
         }
     }catch(err:any){
