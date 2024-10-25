@@ -37,13 +37,13 @@ JWT_SCRET_KEY = random value
 PORT = your port ex(5000)
 ```
 
-## Usage
+## 🔧 Usage
 
 ```bash
 npm run dev
 ```
 
-## Tech Stack
+## 🚀 Tech Stack
 - **Node.js**: JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **Express**: Web application framework for Node.js.
 - **MongoDB**: NoSQL database.
@@ -65,6 +65,9 @@ npm run dev
     - user can login 
     - user can update his (personal infos, email, profile image, password)
     - user can reset his password in case of forgotten 
+    - user can get his friends
+    - user can delete his friend
+    - user can delete his account
 - **📄 Post Management**
     - user can (read, create, update, delete) his his own post
     - user can like/unlike post
@@ -83,6 +86,10 @@ npm run dev
     - user can get status feed based on his friends statuses
     - user can get other users who liked his status
     - Status is automatically deleted from the database after 24 hours
+- **👩🏽‍🤝‍👩🏽 Friend Rquest Management**
+    - users can send friend requests to each other
+    - users can accept or cancel thier friend requests
+    - users can get thier frien requests
 - **🔎 Search**
     - user can search for other users
 

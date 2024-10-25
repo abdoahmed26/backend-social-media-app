@@ -11,6 +11,7 @@ import { likesRouter } from "./routes/likesRoute"
 import { commentRouter } from "./routes/commentsRoute"
 import { statusRouter } from "./routes/statusRoute"
 import { searchRouter } from "./routes/searchRoute"
+import { friendsRequest } from "./routes/friendsRequestRoute"
 
 dotenv.config()
 
@@ -38,6 +39,8 @@ app.use("/api/v1/user",userRouter)
 app.use("/api/v1/posts",postRouter)
 
 app.use("/api/v1/comments",commentRouter)
+
+app.use("/api/v1/friends-request",friendsRequest)
 
 app.use("/api/v1/status",statusRouter)
 
