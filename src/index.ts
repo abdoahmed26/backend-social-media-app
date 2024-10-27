@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import compression from "compression"
+import helmet from "helmet";
+import { rateLimit } from 'express-rate-limit'
 import path from "path"
 import { authRouter } from "./routes/authRoute"
 import mongoose from "mongoose"
@@ -19,12 +21,20 @@ import { notificationRouter } from "./routes/notificationRoute"
 
 dotenv.config()
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    message:"Many requests in few time. please try again in anther time"
+})
+
 // const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors())
 app.use(compression())
+app.use(helmet({xFrameOptions: { action: "deny" }}));
+app.use(limiter)
 app.use(ErrorHandler)
 
 mongoose.connect(process.env.DATABASE_URL as string).then(()=>{
