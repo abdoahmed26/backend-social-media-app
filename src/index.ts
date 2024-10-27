@@ -12,10 +12,12 @@ import { commentRouter } from "./routes/commentsRoute"
 import { statusRouter } from "./routes/statusRoute"
 import { searchRouter } from "./routes/searchRoute"
 import { friendsRequest } from "./routes/friendsRequestRoute"
+import { app, server } from "./chat/server"
+import { conversationRouter } from "./routes/conversationRoute"
 
 dotenv.config()
 
-const app = express()
+// const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -46,12 +48,14 @@ app.use("/api/v1/status",statusRouter)
 
 app.use("/api/v1/likes",likesRouter)
 
+app.use("/api/v1/chats",conversationRouter)
+
 app.use("/api/v1/search",searchRouter)
 
 app.all("*", (req, res) => {
     res.status(404).json({status:"error",message: "this resource is not available"})
 })
 
-app.listen(process.env.PORT,()=>{
+server.listen(process.env.PORT,()=>{
     console.log(`this server is running at http://localhost:${process.env.PORT}`);
 })

@@ -90,6 +90,12 @@ npm run dev
     - users can send friend requests to each other
     - users can accept or cancel thier friend requests
     - users can get thier frien requests
+- **📨 Chat Management**
+    - real time messagging
+    - users can send messages to each other
+    - user can get all users he has sent messages with
+    - users can get all previous messages or chats
+    - users can update thier messages or delete them
 - **🔎 Search**
     - user can search for other users
 
