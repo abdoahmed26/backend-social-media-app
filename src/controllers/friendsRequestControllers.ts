@@ -1,3 +1,4 @@
+import { sendNotification } from "../helpers/sendNotification"
 import { FriendsRequest } from "../models/friendsRequestModel"
 import { User } from "../models/usersModel"
 
@@ -33,6 +34,8 @@ export const addFriendRequest = async(req,res)=>{
                 receiver:id
             })
             await newRequest.save();
+            const message = `${req.user.username} sent you a friend request`
+            await sendNotification(message,user._id.toString())
             res.status(201).json({status:"success",message:"Friend request sent"})
         }
     }catch(err:any){
@@ -50,6 +53,8 @@ export const acceptFriendRequest = async(req,res)=>{
         else{
             await User.findByIdAndUpdate(request.sender,{$push:{friends:request.receiver}},{new:true})
             const receiver = await User.findByIdAndUpdate(request.receiver,{$push:{friends:request.sender}},{new:true,select:{"password":false}})
+            const message = `${req.user.username} accepted a friend request`
+            await sendNotification(message,request.sender.toString())
             await FriendsRequest.findByIdAndDelete(id)
             res.status(200).json({status:"success",message:"Friend request accepted",data:receiver})
         }

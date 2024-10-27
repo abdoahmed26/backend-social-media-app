@@ -96,6 +96,9 @@ npm run dev
     - user can get all users he has sent messages with
     - users can get all previous messages or chats
     - users can update thier messages or delete them
+- **🌟 Notification Management**
+    - the server send real-time notifications for users
+    - user can get his notifications
 - **🔎 Search**
     - user can search for other users
 

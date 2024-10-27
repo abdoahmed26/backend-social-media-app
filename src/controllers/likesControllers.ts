@@ -1,3 +1,4 @@
+import { sendNotification } from "../helpers/sendNotification"
 import { Comment } from "../models/commentModel"
 import { Post } from "../models/postModel"
 import { Status } from "../models/statusModel"
@@ -16,6 +17,8 @@ export const toggleLikePost = async (req, res) => {
             }else{
                 const addLike = [...post.likes,req.user.id]
                 const updatePost = await Post.findByIdAndUpdate(req.params.id,{likes:addLike},{new:true,select:{"__v":false}})
+                const message = `${req.user.username} liked your post`
+                await sendNotification(message,post.userId.toString())
                 res.status(200).json({status:"success",message:"Post liked",data:{likesCount:updatePost?.likes.length}})
             }
         }
@@ -59,6 +62,8 @@ export const toggleLikeComment = async (req, res) => {
             }else{
                 const addLike = [...comment.likes,req.user.id]
                 const updateComment = await Comment.findByIdAndUpdate(req.params.id,{likes:addLike},{new:true,select:{"__v":false}})
+                const message = `${req.user.username} liked your comment`
+                await sendNotification(message,comment.userId.toString())
                 res.status(200).json({status:"success",message:"Comment liked",data:{likesCount:updateComment?.likes.length}})
             }
         }
@@ -102,6 +107,8 @@ export const toggleLikeStatus = async (req, res) => {
             }else{
                 const addLike = [...status.likes,req.user.id]
                 const updatePost = await Status.findByIdAndUpdate(req.params.id,{likes:addLike},{new:true,select:{"__v":false}})
+                const message = `${req.user.username} liked your status`
+                await sendNotification(message,status.userId.toString())
                 res.status(200).json({status:"success",message:"Status liked",data:{likesCount:updatePost?.likes.length}})
             }
         }

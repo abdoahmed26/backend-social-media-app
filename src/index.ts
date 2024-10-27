@@ -14,6 +14,8 @@ import { searchRouter } from "./routes/searchRoute"
 import { friendsRequest } from "./routes/friendsRequestRoute"
 import { app, server } from "./chat/server"
 import { conversationRouter } from "./routes/conversationRoute"
+import { ErrorHandler } from "./middlewares/ErrorHander"
+import { notificationRouter } from "./routes/notificationRoute"
 
 dotenv.config()
 
@@ -23,6 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors())
 app.use(compression())
+app.use(ErrorHandler)
 
 mongoose.connect(process.env.DATABASE_URL as string).then(()=>{
     console.log("database connected");
@@ -49,6 +52,8 @@ app.use("/api/v1/status",statusRouter)
 app.use("/api/v1/likes",likesRouter)
 
 app.use("/api/v1/chats",conversationRouter)
+
+app.use("/api/v1/notification",notificationRouter)
 
 app.use("/api/v1/search",searchRouter)
 

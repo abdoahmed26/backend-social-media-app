@@ -1,3 +1,4 @@
+import { sendNotification } from "../helpers/sendNotification";
 import { Comment } from "../models/commentModel";
 import { Post } from "../models/postModel";
 import { Status } from "../models/statusModel";
@@ -18,6 +19,8 @@ export const addCommentToPost = async(req,res)=>{
             await newComment.save();
             post.comments.push(newComment._id)
             await post.save()
+            const message = `${req.user.username} added a comment to your post`
+            await sendNotification(message,post.userId.toString())
             res.status(200).json({status:"success",data:newComment})
         }
     }catch(err:any){
@@ -41,6 +44,8 @@ export const addCommentToStatus = async(req,res)=>{
             await newComment.save();
             status.comments.push(newComment._id)
             await status.save()
+            const message = `${req.user.username} added a comment to your status`
+            await sendNotification(message,status.userId.toString())
             res.status(200).json({status:"success",data:newComment})
         }
     }catch(err:any){
@@ -134,6 +139,8 @@ export const addReplyComment = async(req,res)=>{
             await reply.save();
             comment.replies.push(reply._id)
             await comment.save()
+            const message = `${req.user.username} added a reply to your comment`
+            await sendNotification(message,comment.userId.toString())
             res.status(200).json({status:"success",data:reply})
         }
     }catch(err:any){

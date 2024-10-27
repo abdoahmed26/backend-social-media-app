@@ -15,7 +15,7 @@ export const login = async(req:Request,res:Response) => {
                 res.status(401).json({status:"fail",message: "email or password is incorrect"})
             }
             else{
-                const token = jwt.sign({id:user._id,email:user.email},process.env.JWT_SECRET_KEY as string,{expiresIn:"10m"})
+                const token = jwt.sign({id:user._id,username:user.username,email:user.email},process.env.JWT_SECRET_KEY as string,{expiresIn:"10m"})
                 res.status(200).json({status:"success",data:{token}})
             }
         }
