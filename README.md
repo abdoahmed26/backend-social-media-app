@@ -34,7 +34,15 @@ DATABASE_URL = your database url
 
 JWT_SCRET_KEY = random value
 
+RESET_TOKEN_SECRET = random value
+
+USER = your user account gmail for sending emails
+
+PASS = your password account gmail for sending emails
+
 PORT = your port ex(5000)
+
+NODE = development / producation
 ```
 
 ## 🔧 Usage

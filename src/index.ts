@@ -18,6 +18,7 @@ import { app, server } from "./chat/server"
 import { conversationRouter } from "./routes/conversationRoute"
 import { ErrorHandler } from "./middlewares/ErrorHander"
 import { notificationRouter } from "./routes/notificationRoute"
+import { passwordRouter } from "./routes/passwordRoute";
 
 dotenv.config()
 
@@ -50,6 +51,8 @@ app.use("/src",express.static(path.join(__dirname)))
 app.use("/api/v1/auth",authRouter)
 
 app.use("/api/v1/user",userRouter)
+
+app.use("/api/v1/password",passwordRouter)
 
 app.use("/api/v1/posts",postRouter)
 

@@ -11,12 +11,17 @@ const transport = nodemailer.createTransport({
     },
 });
 
-export const sendEmail = (email:string,code:string)=>{
+export const sendEmail = (email:string,link:string,username:string)=>{
     const option = {
         from:process.env.USER,
         to:email,
-        subject:"Email verification code",
-        text:`Your verification code is ${code}`,
+        subject:"Email reset password",
+        html:
+        `<div>
+            <h1>Hello ${username}</h1>
+            <p>Click on <a href=${link}>the link</a> below to reset your password</p>
+        </div>`
+        ,
     }
 
     return transport.sendMail(option)
