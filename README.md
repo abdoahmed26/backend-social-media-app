@@ -57,6 +57,8 @@ npm run dev
 - **MongoDB**: NoSQL database.
 - **Mongoose**: ODM for MongoDB and Node.js.
 - **Multer**: Middleware for handling multipart/form-data,   primarily used for file uploads.
+- **Helmet**: Middleware for help secure Express apps.
+- **Express Rate Limit**: Middleware for limit repeated requests to public APIs and/or endpoints.
 - **Express Validator**: Middleware for server-side validation.
 - **Compression**: Middleware to compress response bodies.
 - **Dotenv**: Module to load environment variables from a .env file.
