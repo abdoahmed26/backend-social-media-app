@@ -19,6 +19,7 @@ import { conversationRouter } from "./routes/conversationRoute"
 import { ErrorHandler } from "./middlewares/ErrorHander"
 import { notificationRouter } from "./routes/notificationRoute"
 import { passwordRouter } from "./routes/passwordRoute";
+import { groupRouter } from "./routes/groupRoute";
 
 dotenv.config()
 
@@ -63,6 +64,8 @@ app.use("/api/v1/friends-request",friendsRequest)
 app.use("/api/v1/status",statusRouter)
 
 app.use("/api/v1/likes",likesRouter)
+
+app.use("/api/v1/group",groupRouter)
 
 app.use("/api/v1/chats",conversationRouter)
 
