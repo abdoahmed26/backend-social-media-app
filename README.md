@@ -100,6 +100,11 @@ npm run dev
     - users can send friend requests to each other
     - users can accept or cancel thier friend requests
     - users can get thier frien requests
+- **👨🏽‍🤝‍👨🏼👨🏽‍🤝‍👨🏽 Group Mangement**
+    - users can create a group and update the group
+    - users can create posts in group
+    - users can send request to join a group
+    - The owner can see all requests to join the group and can accept or delete them
 - **📨 Chat Management**
     - real time messagging
     - users can send messages to each other

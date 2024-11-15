@@ -20,6 +20,7 @@ import { ErrorHandler } from "./middlewares/ErrorHander"
 import { notificationRouter } from "./routes/notificationRoute"
 import { passwordRouter } from "./routes/passwordRoute";
 import { groupRouter } from "./routes/groupRoute";
+import { groupRequestRouter } from "./routes/groupRequestRoute";
 
 dotenv.config()
 
@@ -66,6 +67,8 @@ app.use("/api/v1/status",statusRouter)
 app.use("/api/v1/likes",likesRouter)
 
 app.use("/api/v1/group",groupRouter)
+
+app.use("/api/v1/group-request",groupRequestRouter)
 
 app.use("/api/v1/chats",conversationRouter)
 
